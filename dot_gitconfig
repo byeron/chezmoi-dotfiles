@@ -1,0 +1,7 @@
+[user]
+	name = byeron
+	email = disce.uno@gmail.com
+[color]
+	ui = auto
+[core]
+	editor = vim
