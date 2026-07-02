@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# ここを書き換える
+{{- if eq .chezmoi.hostname "target-server" }}
+
+echo "Checking fstab entries for target-server..."
+
+read -r -d '' ENTRIES << 'EOF'
+/dev/disk/by-uuid/d803628b-45c0-4e6f-9c78-699de31b56ef / ext4 defaults 0 1
+192.168.1.153:/volume2/doujin /mnt/contents/doujin nfs defaults 0 0
+192.168.1.153:/volume2/creator_tracker /mnt/contents/creator_tracker nfs defaults 0 0
+192.168.1.153:/volume2/dl /mnt/contents/dl nfs defaults 0 0
+192.168.1.153:/volume1/container_volume /home/pi/selfhostd nfs defaults 0 0
+192.168.1.153:/volume1/media /mnt/contents/media nfs defaults 0 0
+EOF
+
+echo "$ENTRIES" | while IFS= read -r line; do
+    [ -z "$line" ] && continue
+    if ! grep -qF "$line" /etc/fstab; then
+        echo "Adding: $line"
+        echo "$line" | sudo tee -a /etc/fstab
+    else
+        echo "Already exists: $line"
+    fi
+done
+
+{{- end }}
