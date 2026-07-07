@@ -27,5 +27,9 @@ if [ -d "$HOME/.local/bin" ] ; then
 fi
 
 # User define
+## linuxbrew
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv bash)"
+export HOMEBREW_BUNDLE_FILE="$HOME/.config/brew/Brewfile"
+
+## try
 eval "$(try init ~/src/tries)"
